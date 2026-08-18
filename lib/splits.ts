@@ -122,11 +122,16 @@ export function computeSplit(input: SplitInput): SplitResult {
     if (method === "sales") return e.sales;
     // points: role weight × hours (unknown roles default to 1.0)
     const weight = roleWeights[e.role];
-    const roleWeight = Number.isFinite(weight) && weight! > 0 ? weight! : 1;
+    const roleWeight = Number.isFinite(weight) && weight! >= 0 ? weight! : 1;
     return roleWeight * e.hours;
   };
   const weights = clean.map(weightOf);
   const totalWeight = weights.reduce((sum, w) => sum + w, 0);
+
+  // A points split where every role weight is 0 would divide by zero below.
+  if (method === "points" && totalWeight === 0) {
+    validationErrors.push("Set a positive weight for at least one role");
+  }
 
   // 5. Cents-exact rounding: floor each raw share, hand the leftover
   //    remainder to the single highest-hours entry (deterministic tie-break).
