@@ -139,29 +139,37 @@ export default function CalculatorClient() {
     const text = buildSummaryText(input, result);
     setCopyError(null);
     try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      // Fallback for older browsers / non-secure contexts.
-      const ta = document.createElement("textarea");
-      ta.value = text;
-      ta.setAttribute("readonly", "");
-      ta.style.position = "fixed";
-      ta.style.top = "-9999px";
-      ta.style.opacity = "0";
-      document.body.appendChild(ta);
-      ta.select();
       let ok = false;
       try {
-        ok = document.execCommand("copy");
+        await navigator.clipboard.writeText(text);
+        ok = true;
       } catch {
-        ok = false;
-      } finally {
-        document.body.removeChild(ta);
+        // Fallback for older browsers / non-secure contexts.
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "-9999px";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+          ok = document.execCommand("copy");
+        } catch {
+          ok = false;
+        } finally {
+          document.body.removeChild(ta);
+        }
       }
       if (!ok) throw new Error("clipboard unavailable");
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Every failure path lands here — never an unhandled rejection.
+      setCopyError(
+        "Couldn't copy automatically — long-press the summary to select it manually."
+      );
     }
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 2000);
   }, [input, result]);
 
   const poolCents = input.poolCents;
