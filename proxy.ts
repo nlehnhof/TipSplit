@@ -5,7 +5,7 @@ import { updateSession } from "@/lib/supabase/middleware";
  * Runs on every request: refreshes the Supabase session and protects
  * /app/* (redirects signed-out users to /login).
  */
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   return updateSession(request);
 }
 
