@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import CalculatorClient from "./calculator-client";
 
 export const metadata: Metadata = {
-  title:
-    "Tip Out Calculator — Split Tips by Hours, Sales, or Points | TipSplit",
+  title: "Tip Out Calculator — Split Tips by Hours, Sales, or Points",
   description:
-    "Free tip out calculator for restaurants, bars, and salons. Split the tip pool by hours, sales, or role points, take house retention, and get cent-exact shares in seconds. No account needed.",
+    "Enter staff, hours, and the tip pool. Get a cent-exact split by hours, sales, or points, with house retention and reconciliation. No sign-up.",
 };
 
 export default function CalculatorPage() {

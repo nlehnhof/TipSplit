@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -31,7 +32,42 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="flex flex-1 flex-col">{children}</div>
         <footer className="border-t border-zinc-200 bg-zinc-50">
           <div className="mx-auto w-full max-w-3xl px-4 py-6">
-            <p className="text-center text-xs leading-relaxed text-zinc-600">
+            <nav
+              aria-label="Footer"
+              className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2"
+            >
+              <Link
+                href="/"
+                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+              >
+                Home
+              </Link>
+              <Link
+                href="/calculator"
+                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+              >
+                Calculator
+              </Link>
+              <Link
+                href="/pricing"
+                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+              >
+                Pricing
+              </Link>
+              <Link
+                href="/privacy"
+                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+              >
+                Privacy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-sm font-medium text-zinc-600 hover:text-zinc-900"
+              >
+                Terms
+              </Link>
+            </nav>
+            <p className="mt-4 text-center text-xs leading-relaxed text-zinc-600">
               {LEGAL_NOTE}
             </p>
           </div>
